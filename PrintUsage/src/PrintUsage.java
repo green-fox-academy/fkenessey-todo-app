@@ -20,6 +20,8 @@ public class PrintUsage {
         taskList.removeTasks(args);
       } else if (args[0].equals("-c")) {
         taskList.checkTask(args);
+      } else {
+        System.out.println("Unsupported argument");
       }
     }
   }

@@ -49,7 +49,7 @@ public class TaskList {
   }
 
   public void addTasks(String[] args) {
-    try {
+    if (args.length > 1){
       String addSentence = "";
       for (int i = 1; i < args.length; i++) {
         addSentence += args[i] + " ";
@@ -65,44 +65,56 @@ public class TaskList {
       } catch (IOException e) {
         System.out.println("Cannot write file");
       }
-    } catch (Exception e) {
-      System.out.println("No task has been entered!");
+    } else {
+      System.out.println("Unable to add: no task provided");
     }
   }
 
   public void removeTasks(String[] args) {
-    try {
-      int index = (Integer.valueOf(args[1])) - 1;
-      fileTaskLines.remove(index);
-    }catch (Exception e){
-      System.out.println("Incorrect command!");
-    }
-    try {
-      //fileRawContent = new ArrayList<>();
-      fileRawContent.clear();
-      convertTaskLinesToRawContent(fileRawContent,fileTaskLines);
-      Files.write(filePath, fileRawContent);
-      System.out.println(args[1] + " task has been removed!");
-    } catch (IOException e) {
-      System.out.println("Cannot write file");
+    if (args.length > 1) {
+      try {
+        int index = (Integer.valueOf(args[1])) - 1;
+        fileTaskLines.remove(index);
+        try {
+          //fileRawContent = new ArrayList<>();
+          fileRawContent.clear();
+          convertTaskLinesToRawContent(fileRawContent, fileTaskLines);
+          Files.write(filePath, fileRawContent);
+          System.out.println("Task " + args[1] + " has been removed!");
+        } catch (IOException e) {
+          System.out.println("Cannot write file");
+        }
+      } catch (NumberFormatException e1) {
+        System.out.println("Unable to remove: index is not a number");
+      } catch (IndexOutOfBoundsException e2) {
+        System.out.println("Unable to remove: index is out of bound");
+      }
+    } else {
+      System.out.println("Unable to remove: no index provided");
     }
   }
 
   public void checkTask(String[] args) {
-    try {
-      int index = (Integer.valueOf(args[1])) - 1;
-      fileTaskLines.get(index).setIfFinished(true);
-    }catch (Exception e){
-      System.out.println("Incorrect command!");
-    }
-    try {
-      //fileRawContent = new ArrayList<>();
-      fileRawContent.clear();
-      convertTaskLinesToRawContent(fileRawContent, fileTaskLines);
-      Files.write(filePath, fileRawContent);
-      System.out.println(args[1] + " task has been marked!");
-    } catch (IOException e) {
-      System.out.println("Cannot write file");
+    if (args.length > 1) {
+      try {
+        int index = (Integer.valueOf(args[1])) - 1;
+        fileTaskLines.get(index).setIfFinished(true);
+        try {
+          //fileRawContent = new ArrayList<>();
+          fileRawContent.clear();
+          convertTaskLinesToRawContent(fileRawContent, fileTaskLines);
+          Files.write(filePath, fileRawContent);
+          System.out.println("Task " + args[1] + " has been marked!");
+        } catch (IOException e) {
+          System.out.println("Cannot write file");
+        }
+      } catch (NumberFormatException e1) {
+        System.out.println("Unable to remove: index is not a number");
+      } catch (IndexOutOfBoundsException e2) {
+        System.out.println("Unable to remove: index is out of bound");
+      }
+    }else {
+          System.out.println("Unable to remove: no index provided");
     }
   }
 
