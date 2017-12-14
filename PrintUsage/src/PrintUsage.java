@@ -19,7 +19,7 @@ public class PrintUsage {
       } else if (args[0].equals("-r")) {
         taskList.removeTasks(args);
       } else if (args[0].equals("-c")) {
-
+        taskList.checkTask(args);
       }
     }
   }

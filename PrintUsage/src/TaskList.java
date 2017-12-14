@@ -21,10 +21,15 @@ public class TaskList {
     try {
       fileRawContent = Files.readAllLines(filePath);
       for (int i = 0; i < fileRawContent.size(); i++) {
-        Task taskTemp = new Task(fileRawContent.get(i));
-        fileTaskLines.add(i,taskTemp);
+        if (fileRawContent.get(i).endsWith("*")) {
+          Task taskTemp = new Task(fileRawContent.get(i).substring(0,fileRawContent.get(i).length()-1));
+          taskTemp.setIfFinished(true);
+          fileTaskLines.add(i,taskTemp);
+          } else {
+          Task taskTemp = new Task(fileRawContent.get(i));
+          fileTaskLines.add(i, taskTemp);
+        }
       }
-
     } catch (IOException e) {
       System.out.println("Cannot read file");
     }
@@ -35,7 +40,11 @@ public class TaskList {
 
   public void listTasks() {
     for (int i = 0; i < fileTaskLines.size(); i++) {
-      System.out.println((i + 1) + " - " + fileTaskLines.get(i).getContent());
+      if (fileTaskLines.get(i).isIfFinished()) {
+        System.out.println((i + 1) + " - " + "[x] " + fileTaskLines.get(i).getContent());
+      } else {
+        System.out.println((i + 1) + " - " + "[ ] " + fileTaskLines.get(i).getContent());
+      }
     }
   }
 
@@ -51,8 +60,13 @@ public class TaskList {
         //fileRawContent = new ArrayList<>();
         fileRawContent.clear();
         for (int i = 0; i < fileTaskLines.size(); i++) {
-          String stringTemp = fileTaskLines.get(i).getContent();
-          fileRawContent.add(stringTemp);
+          if (fileTaskLines.get(i).isIfFinished()) {
+            String stringTemp = fileTaskLines.get(i).getContent() + "*";
+            fileRawContent.add(stringTemp);
+          } else {
+            String stringTemp = fileTaskLines.get(i).getContent();
+            fileRawContent.add(stringTemp);
+          }
         }
         Files.write(filePath, fileRawContent);
         System.out.println("New task has been added!");
@@ -75,8 +89,13 @@ public class TaskList {
       //fileRawContent = new ArrayList<>();
       fileRawContent.clear();
       for (int i = 0; i < fileTaskLines.size(); i++) {
-        String stringTemp = fileTaskLines.get(i).getContent();
-        fileRawContent.add(stringTemp);
+        if (fileTaskLines.get(i).isIfFinished()) {
+          String stringTemp = fileTaskLines.get(i).getContent() + "*";
+          fileRawContent.add(stringTemp);
+        } else {
+          String stringTemp = fileTaskLines.get(i).getContent();
+          fileRawContent.add(stringTemp);
+        }
       }
       Files.write(filePath, fileRawContent);
       System.out.println(args[1] + " task has been removed!");
@@ -85,24 +104,29 @@ public class TaskList {
     }
   }
 
-  /*public void setDoneTasks(String[] args) {
-    int index = 0;
+  public void checkTask(String[] args) {
     try {
-
+      int index = (Integer.valueOf(args[1])) - 1;
+      fileTaskLines.get(index).setIfFinished(true);
     }catch (Exception e){
       System.out.println("Incorrect command!");
     }
-    if (Integer.valueOf(args[1]) > 1 && Integer.valueOf(args[1]) < args.length) {
-      index = (Integer.valueOf(args[1])) - 1;
-      fileTaskLines.get(index).
-      try {
-        Files.write(filePath, fileTaskLines);
-        System.out.println(args[1] + " task has been removed!");
-      } catch (IOException e) {
-        System.out.println("Cannot write file");
+    try {
+      //fileRawContent = new ArrayList<>();
+      fileRawContent.clear();
+      for (int i = 0; i < fileTaskLines.size(); i++) {
+        if (fileTaskLines.get(i).isIfFinished()) {
+          String stringTemp = fileTaskLines.get(i).getContent() + "*";
+          fileRawContent.add(stringTemp);
+        } else {
+          String stringTemp = fileTaskLines.get(i).getContent();
+          fileRawContent.add(stringTemp);
+        }
       }
-    } else {
-      System.out.println("Incorrect command!");
+      Files.write(filePath, fileRawContent);
+      System.out.println(args[1] + " task has been marked!");
+    } catch (IOException e) {
+      System.out.println("Cannot write file");
     }
-  }*/
+  }
 }

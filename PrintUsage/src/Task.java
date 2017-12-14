@@ -1,22 +1,22 @@
 public class Task {
-  private boolean finished;
+  private boolean ifFinished;
   private String content;
 
   public Task(String content) {
-    this.finished = false;
+    this.ifFinished = false;
     this.content = content;
   }
 
-  public boolean isFinished() {
-    return finished;
+  public boolean isIfFinished() {
+    return ifFinished;
   }
 
   public String getContent() {
     return content;
   }
 
-  public void setFinished(boolean finished) {
-    this.finished = finished;
+  public void setIfFinished(boolean ifFinished) {
+    this.ifFinished = ifFinished;
   }
 
   public void setContent(String content) {
