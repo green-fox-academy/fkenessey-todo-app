@@ -59,15 +59,7 @@ public class TaskList {
       try {
         //fileRawContent = new ArrayList<>();
         fileRawContent.clear();
-        for (int i = 0; i < fileTaskLines.size(); i++) {
-          if (fileTaskLines.get(i).isIfFinished()) {
-            String stringTemp = fileTaskLines.get(i).getContent() + "*";
-            fileRawContent.add(stringTemp);
-          } else {
-            String stringTemp = fileTaskLines.get(i).getContent();
-            fileRawContent.add(stringTemp);
-          }
-        }
+        convertTaskLinesToRawContent(fileRawContent, fileTaskLines);
         Files.write(filePath, fileRawContent);
         System.out.println("New task has been added!");
       } catch (IOException e) {
@@ -88,15 +80,7 @@ public class TaskList {
     try {
       //fileRawContent = new ArrayList<>();
       fileRawContent.clear();
-      for (int i = 0; i < fileTaskLines.size(); i++) {
-        if (fileTaskLines.get(i).isIfFinished()) {
-          String stringTemp = fileTaskLines.get(i).getContent() + "*";
-          fileRawContent.add(stringTemp);
-        } else {
-          String stringTemp = fileTaskLines.get(i).getContent();
-          fileRawContent.add(stringTemp);
-        }
-      }
+      convertTaskLinesToRawContent(fileRawContent,fileTaskLines);
       Files.write(filePath, fileRawContent);
       System.out.println(args[1] + " task has been removed!");
     } catch (IOException e) {
@@ -114,19 +98,23 @@ public class TaskList {
     try {
       //fileRawContent = new ArrayList<>();
       fileRawContent.clear();
-      for (int i = 0; i < fileTaskLines.size(); i++) {
-        if (fileTaskLines.get(i).isIfFinished()) {
-          String stringTemp = fileTaskLines.get(i).getContent() + "*";
-          fileRawContent.add(stringTemp);
-        } else {
-          String stringTemp = fileTaskLines.get(i).getContent();
-          fileRawContent.add(stringTemp);
-        }
-      }
+      convertTaskLinesToRawContent(fileRawContent, fileTaskLines);
       Files.write(filePath, fileRawContent);
       System.out.println(args[1] + " task has been marked!");
     } catch (IOException e) {
       System.out.println("Cannot write file");
+    }
+  }
+
+  public void convertTaskLinesToRawContent(List<String> fileRawContentin, List<Task> fileTaskLinesin) {
+    for (int i = 0; i < fileTaskLinesin.size(); i++) {
+      if (fileTaskLinesin.get(i).isIfFinished()) {
+        String stringTemp = fileTaskLinesin.get(i).getContent() + "*";
+        fileRawContentin.add(stringTemp);
+      } else {
+        String stringTemp = fileTaskLinesin.get(i).getContent();
+        fileRawContentin.add(stringTemp);
+      }
     }
   }
 }
