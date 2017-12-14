@@ -8,16 +8,18 @@ public class PrintUsage {
     System.out.println(" -r   Removes an task");
     System.out.println(" -c   Completes an task\n");
 
-    Task task = new Task();
-    task.readFileContent();
+    TaskList taskList = new TaskList();
+    taskList.readFileContent();
 
     if (args.length > 0) {
       if (args[0].equals("-l")) {
-        task.listTasks();
+        taskList.listTasks();
       } else if (args[0].equals("-a")) {
-        task.addTasks(args);
+        taskList.addTasks(args);
       } else if (args[0].equals("-r")) {
-        task.removeTasks(args);
+        taskList.removeTasks(args);
+      } else if (args[0].equals("-c")) {
+
       }
     }
   }
