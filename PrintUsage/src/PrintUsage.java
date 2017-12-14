@@ -22,6 +22,9 @@ public class PrintUsage {
     } catch (IOException e) {
       System.out.println("Cannot read file");
     }
+    if (fileContentLines.size() < 1) {
+      System.out.println("No todos for today! :)");
+    }
 
     if (args.length > 0) {
       if (args[0].equals("-l")) {
@@ -44,6 +47,19 @@ public class PrintUsage {
           }
         } catch (Exception e) {
           System.out.println("No task has been entered!");
+        }
+      } else if (args[0].equals("-r")) {
+        try {
+          int index = (Integer.valueOf(args[1])) - 1;
+          fileContentLines.remove(index - 1);
+        }catch (Exception e){
+          System.out.println("Incorrect command!");
+        }
+        try {
+          Files.write(filePath, fileContentLines);
+          System.out.println(args[1] + " task has been removed!");
+        } catch (IOException e) {
+          System.out.println("Cannot write file");
         }
       }
     }
